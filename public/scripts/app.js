@@ -4,90 +4,91 @@ console.log('App.js is running!');
 
 // JSX - Is extension for JavaScript XML, given to us by React.
 
+
 var app = {
-  title: "Decision Maker",
-  subtitle: "Put your hands in the life of a computer",
-  options: ["One", "Two"]
+  title: "Visibilty Toggle",
+  text: "Here is some text"
 };
 
-var template = React.createElement(
-  "div",
-  null,
-  React.createElement(
-    "h1",
-    null,
-    app.title
-  ),
-  app.subtitle && React.createElement(
-    "p",
-    null,
-    app.subtitle
-  ),
-  React.createElement(
-    "p",
-    null,
-    app.options.length > 0 ? "Here are your options" : "No options"
-  ),
-  React.createElement(
-    "ol",
-    null,
-    React.createElement(
-      "li",
-      null,
-      "Item one"
-    ),
-    React.createElement(
-      "li",
-      null,
-      "Item two"
-    )
-  )
-);
+// const onFormSubmit = (e) => {
+//   e.preventDefault();
 
-var count = 0;
-var addOne = function addOne() {
-  count++;
-  renderCounterApp();
-};
-var minusOne = function minusOne() {
-  count--;
-  renderCounterApp();
-};
-var reset = function reset() {
-  count = 0;
-  renderCounterApp();
-};
+//   const option = e.target.elements.option.value;
+
+//   if (option) {
+//     app.options.push(option);
+//     e.target.elements.option.value = "";
+//   }
+//   renderApp();
+// };
+
+// const removeOptions = () => {
+//   app.options = [];
+//   renderApp();
+// };
+
+// const onMakeDecision = () => {
+//   const randomNum = Math.floor(Math.random() * app.options.length);
+//   const option = app.options[randomNum];
+//   alert(option);
+// };
 
 var appRoot = document.getElementById("app");
 
-var renderCounterApp = function renderCounterApp() {
-  var templateTwo = React.createElement(
+var renderApp = function renderApp() {
+  var template = React.createElement(
     "div",
     null,
     React.createElement(
       "h1",
       null,
-      "Count: ",
-      count
+      app.title
+    ),
+    "//   ",
+    app.subtitle && React.createElement(
+      "p",
+      null,
+      app.subtitle
+    ),
+    "//   ",
+    React.createElement(
+      "p",
+      null,
+      app.options.length > 0 ? "Here are your options" : "No options"
     ),
     React.createElement(
       "button",
-      { onClick: addOne },
-      "+1"
+      { disabled: app.options.length == 0, onClick: onMakeDecision },
+      "What should I do?"
     ),
     React.createElement(
       "button",
-      { onClick: minusOne },
-      "-1"
+      { onClick: removeOptions },
+      "Remove All"
     ),
     React.createElement(
-      "button",
-      { onClick: reset },
-      "Reset"
+      "ol",
+      null,
+      app.options.map(function (option) {
+        return React.createElement(
+          "li",
+          { key: option },
+          option
+        );
+      })
+    ),
+    React.createElement(
+      "form",
+      { onSubmit: onFormSubmit },
+      React.createElement("input", { type: "text", name: "option" }),
+      React.createElement(
+        "button",
+        null,
+        "Add option"
+      )
     )
   );
-
-  ReactDOM.render(templateTwo, appRoot);
+  ReactDOM.render(template, appRoot);
 };
 
-renderCounterApp();
+renderApp();
